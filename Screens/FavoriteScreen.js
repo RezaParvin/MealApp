@@ -1,16 +1,38 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import MealList from "../components/MealList";
-import { MEALS } from "../data/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
+import { useSelector } from "react-redux";
+import DefaultText from "../components/DefaultText";
 
 const FavoriteScreen = ({ navigation }) => {
-  const targetData = MEALS.filter(
-    (meal) => meal.id === "m1" || meal.id === "m2"
-  );
-  return <MealList mainData={targetData} navigation={navigation} />;
+  const favoriteMeals = useSelector((state) => state.favorites.favorites);
+
+  if (favoriteMeals.length === 0 || !favoriteMeals) {
+    return (
+      <View style={styles.content}>
+        <DefaultText style={styles.text}>
+          هیچ غذایی در لیست علاقه مندی وجود ندارد
+        </DefaultText>
+      </View>
+    );
+  }
+
+  return <MealList mainData={favoriteMeals} navigation={navigation} />;
 };
+
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 22,
+  },
+});
+
 const headerTitleStyle = {
   fontFamily: "iran-sans",
   fontSize: 24,

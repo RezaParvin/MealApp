@@ -3,12 +3,16 @@ import { View, Text, StyleSheet } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import FilterSwitch from "../components/FilterSwitch";
+import { useDispatch } from "react-redux";
+import * as actions from "../store/filtered/actions";
 
 const FilterScreen = ({ navigation }) => {
   const [isGlutenFree, setIsGlutenFree] = useState(false);
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetariane] = useState(false);
+
+  const dispatch = useDispatch();
 
   const saveAllFilter = useCallback(() => {
     const currentFilter = {
@@ -17,8 +21,7 @@ const FilterScreen = ({ navigation }) => {
       isVegan,
       isVegetarian,
     };
-    console.log("filter is saved", currentFilter);
-
+    dispatch(actions.setFilter(currentFilter));
   }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
 
   useEffect(() => {
@@ -86,7 +89,11 @@ FilterScreen.navigationOptions = ({ navigation }) => {
     ),
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item title="save" iconName="ios-save" onPress={navigation.getParam('save')} />
+        <Item
+          title="save"
+          iconName="ios-save"
+          onPress={navigation.getParam("save")}
+        />
       </HeaderButtons>
     ),
   };

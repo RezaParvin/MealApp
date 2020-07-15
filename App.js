@@ -4,6 +4,8 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import MealNavigator from "./navigation/MealNavigation";
 import { enableScreens } from "react-native-screens";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const getFonts = () => {
   return Font.loadAsync({
@@ -29,7 +31,11 @@ export default function App() {
       />
     );
   }
-  return <MealNavigator />;
+  return (
+    <Provider store={store}>
+      <MealNavigator />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({
